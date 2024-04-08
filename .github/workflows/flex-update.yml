@@ -8,7 +8,7 @@ defaults:
     shell: bash
 jobs:
   call-flex-update:
-    runs-on: [self-hosted, linux, Ubuntu-20.04]
+    runs-on: self-hosted
     concurrency: flex-update-${{ github.ref }}
     steps:
       - uses: symfony/recipes/.github/workflows/callable-flex-update.yml@main
