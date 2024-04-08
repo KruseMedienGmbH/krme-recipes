@@ -3,18 +3,6 @@ on:
   push:
     branches:
       - main
-  workflow_call:
-    inputs:
-      branch:
-        default: main
-        required: false
-        type: string
-      contrib:
-        required: false
-        type: boolean
-      versions_json:
-        required: false
-        type: string
 defaults:
   run:
     shell: bash
@@ -23,6 +11,3 @@ jobs:
     runs-on: [self-hosted, linux, Ubuntu-20.04]
     concurrency: flex-update-${{ github.ref }}
     uses: symfony/recipes/.github/workflows/callable-flex-update.yml@main
-    with:
-      branch: main
-      contrib: true
