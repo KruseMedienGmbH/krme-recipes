@@ -7,4 +7,5 @@ defaults:
     shell: bash
 jobs:
   call-flex-cleanup:
+    runs-on: [self-hosted, linux, Ubuntu-20.04]
     uses: symfony/recipes/.github/workflows/callable-flex-cleanup.yml@main
