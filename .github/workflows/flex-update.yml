@@ -12,6 +12,3 @@ jobs:
     concurrency: flex-update-${{ github.ref }}
     steps:
       - uses: symfony/recipes/.github/workflows/callable-flex-update.yml@main
-        with:
-          branch: main
-          contrib: true
