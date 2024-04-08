@@ -1,6 +1,6 @@
 {
   "manifests": {
-    "frosh/code-quality-meta": {
+    "krme/code-quality-meta": {
       "manifest": {
         "copy-from-recipe": {
           "vendor-bin/": "vendor-bin/",
