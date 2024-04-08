@@ -3,6 +3,18 @@ on:
   push:
     branches:
       - main
+  workflow_call:
+    inputs:
+      branch:
+        default: main
+        required: false
+        type: string
+      contrib:
+        required: false
+        type: boolean
+      versions_json:
+        required: false
+        type: string
 defaults:
   run:
     shell: bash
