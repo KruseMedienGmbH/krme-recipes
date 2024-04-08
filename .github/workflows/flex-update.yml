@@ -10,5 +10,7 @@ jobs:
   call-flex-update:
     runs-on: self-hosted
     concurrency: flex-update-${{ github.ref }}
-    steps:
-      - uses: symfony/recipes/.github/workflows/callable-flex-update.yml@main
+    uses: symfony/recipes/.github/workflows/callable-flex-update.yml@main
+    with:
+      branch: main
+      contrib: true
