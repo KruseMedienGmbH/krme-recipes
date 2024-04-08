@@ -1,0 +1,32 @@
+{
+  "aliases": {
+    "code-quality": "krme/code-quality-meta",
+    "codequality": "krme/code-quality-meta"
+  },
+  "recipes": {
+    "krme/code-quality-meta": [
+      "0.1"
+    ]
+  },
+  "recipe-conflicts": {
+    "symfony/messenger": {
+      "5.4": {
+        "symfony/framework-bundle": "<4.3"
+      },
+      "6.0": {
+        "symfony/framework-bundle": "<4.3"
+      }
+    }
+  },
+  "versions": [],
+  "branch": "main",
+  "is_contrib": true,
+  "_links": {
+    "repository": "github.com/Justin4657/recipes",
+    "origin_template": "{package}:{version}@github.com/Justin4657/recipes:main",
+    "recipe_template": "https://raw.githubusercontent.com/Justin4657/krme-recipes/flex/main/{package_dotted}.{version}.json",
+    "recipe_template_relative": "{package_dotted}.{version}.json",
+    "archived_recipes_template": "https://raw.githubusercontent.com/Justin4657/krme-recipes/flex/main/archived/{package_dotted}/{ref}.json",
+    "archived_recipes_template_relative": "archived/{package_dotted}/{ref}.json"
+  }
+}
