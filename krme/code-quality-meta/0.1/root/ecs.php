@@ -129,7 +129,7 @@ file that was distributed with this source code.',
         ])->withSpacing(indentation: Option::INDENTATION_SPACES, lineEnding: '\n')
         ->withCache(
             $_SERVER['SHOPWARE_TOOL_CACHE_ECS'] ?? 'var/cache/cs_fixer',
-            'Shopware6Theme...'
+            'Shopware6Theme...-----'
         )
         ->withParallel();
 
