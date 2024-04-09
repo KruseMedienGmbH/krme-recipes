@@ -38,7 +38,7 @@
                 ]
             },
             "files": {
-                "root/ecs.php": {
+                "ecs.php": {
                     "contents": [
                         "<?php",
                         "",
