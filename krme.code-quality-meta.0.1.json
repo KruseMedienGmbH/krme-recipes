@@ -171,7 +171,7 @@
                         "        ])->withSpacing(indentation: Option::INDENTATION_SPACES, lineEnding: '\\n')",
                         "        ->withCache(",
                         "            $_SERVER['SHOPWARE_TOOL_CACHE_ECS'] ?? 'var/cache/cs_fixer',",
-                        "            'Shopware6Theme.'",
+                        "            'Shopware6Theme'",
                         "        )",
                         "        ->withParallel();",
                         "",
@@ -328,7 +328,7 @@
                     "executable": false
                 }
             },
-            "ref": "c81e5eae7e2299968d96b9d7aee6b3b933e45f77"
+            "ref": "89dcc1e3b82c497c66c07ae68cbb49228f17c818"
         }
     }
 }
