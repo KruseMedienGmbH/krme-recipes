@@ -48,7 +48,6 @@ return static function (RectorConfig $rectorConfig): void {
         ShopwareSetList::SHOPWARE_6_5_0,
     ]);
 
-
     $rectorConfig->phpVersion(PhpVersion::PHP_82);
 
     $rectorConfig->skip([
