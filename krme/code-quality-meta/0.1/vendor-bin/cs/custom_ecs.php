@@ -123,7 +123,7 @@ file that was distributed with this source code.',
         ],
     ])
         ->withPaths([
-            __DIR__ . '/ecs.php',
-            __DIR__ . '/rector.php',
-            __DIR__ . '/src'
+            __DIR__ . '/../../ecs.php',
+            __DIR__ . '/../../rector.php',
+            __DIR__ . '/../../src'
         ])->withSpacing(indentation: Option::INDENTATION_SPACES, lineEnding: '\n');

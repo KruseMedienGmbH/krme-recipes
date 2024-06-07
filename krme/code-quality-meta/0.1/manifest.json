@@ -7,5 +7,64 @@
   "gitignore": [
     "phpstan.neon",
     "/vendor-bin/**/vendor/"
-  ]
+  ],
+  "composer-scripts": {
+    "bin": "echo 'bin not installed'",
+    "post-install-cmd": [
+      "Krme\\Shopware6PluginScripts\\Core\\PostInstallScripts::postUpdateCmd"
+    ],
+    "post-update-cmd": [
+      "Krme\\Shopware6PluginScripts\\Core\\PostInstallScripts::postUpdateCmd"
+    ],
+    "fix": [
+      "Krme\\Shopware6PluginScripts\\Core\\CodeStyleScripts::rectorFix",
+      "Krme\\Shopware6PluginScripts\\Core\\CodeStyleScripts::ecsFix",
+      "Krme\\Shopware6PluginScripts\\Administration\\EslintScripts::administrationFix",
+      "Krme\\Shopware6PluginScripts\\Storefront\\EslintScripts::storefrontFix",
+      "Krme\\Shopware6PluginScripts\\Storefront\\EslintScripts::stylelintFix"
+    ],
+    "lint": [
+      "Krme\\Shopware6PluginScripts\\Core\\CodeStyleScripts::rectorLint",
+      "Krme\\Shopware6PluginScripts\\Core\\CodeStyleScripts::ecsLint",
+      "Krme\\Shopware6PluginScripts\\Administration\\EslintScripts::administrationLint",
+      "Krme\\Shopware6PluginScripts\\Storefront\\EslintScripts::storefrontLint",
+      "Krme\\Shopware6PluginScripts\\Storefront\\EslintScripts::stylelintLint"
+    ],
+    "build": [
+      "~/html/bin/build-js.sh"
+    ],
+    "prepare": [
+      "Krme\\Shopware6PluginScripts\\Core\\ShopwareCliScripts::prepare"
+    ],
+    "zip": [
+      "Krme\\Shopware6PluginScripts\\Core\\ShopwareCliScripts::zip"
+    ],
+    "admin-build": [
+      "~/html/bin/build-administration.sh"
+    ],
+    "storefront-build": [
+      "~/html/bin/build-storefront.sh"
+    ],
+    "storefront-fix": [
+      "Krme\\Shopware6PluginScripts\\Storefront\\EslintScripts::storefrontFix"
+    ],
+    "stylelint-fix": [
+      "Krme\\Shopware6PluginScripts\\Storefront\\EslintScripts::stylelintFix"
+    ],
+    "phpstan": [
+      "Krme\\Shopware6PluginScripts\\Core\\PhpStanScripts::phpstan"
+    ],
+    "prepare-push": [
+      "@fix",
+      "@phpstan",
+      "@admin-build",
+      "@storefront-build"
+    ],
+    "phpunit": [
+      "Krme\\Shopware6PluginScripts\\Core\\PhpUnitScripts::phpunit"
+    ],
+    "phpunit-coverage": [
+      "Krme\\Shopware6PluginScripts\\Core\\PhpUnitScripts::phpunitCoverage"
+    ]
+  }
 }
