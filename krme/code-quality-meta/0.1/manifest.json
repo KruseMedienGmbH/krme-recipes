@@ -1,5 +1,7 @@
 {
-  "aliases": ["code-quality"],
+  "aliases": [
+    "code-quality"
+  ],
   "copy-from-recipe": {
     "vendor-bin/": "vendor-bin/",
     "root/": ""
