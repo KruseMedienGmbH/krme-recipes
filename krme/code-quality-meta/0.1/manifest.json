@@ -8,7 +8,7 @@
     "phpstan.neon",
     "/vendor-bin/**/vendor/"
   ],
-  "composer-scripts": {
+  "scripts": {
     "bin": "echo 'bin not installed'",
     "post-install-cmd": [
       "Krme\\Shopware6PluginScripts\\Core\\PostInstallScripts::postUpdateCmd"
