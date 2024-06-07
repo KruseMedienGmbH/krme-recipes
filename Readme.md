@@ -16,7 +16,7 @@ Bitte stelle sicher, dass der Ordner "data" im selben Verzeichnis wie das ausfü
 
 ## Verwendung
 
-Um das Tool zu verwenden, führen die ausführbare Datei aus und geben einen der oben genannten Befehle ein, gefolgt von den erforderlichen Parametern. Zum Beispiel:
+Um das Tool zu verwenden, führe die ausführbare Datei aus und gebe einen der oben genannten Befehle ein, gefolgt von den erforderlichen Parametern. Zum Beispiel:
 
 ```bash
 .\Shopware6DevTool.exe install
