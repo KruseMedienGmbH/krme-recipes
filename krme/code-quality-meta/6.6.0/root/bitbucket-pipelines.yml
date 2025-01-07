@@ -1,0 +1,55 @@
+# This is a sample build configuration for PHP.
+# Check our guides at https://confluence.atlassian.com/x/e8YWN for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image:
+  name: dockware/dev:latest
+
+definitions:
+  services:
+    redis:
+      image: redis
+  caches:
+    npm: $HOME/.npm
+
+pipelines:
+  pull-requests:
+    '**':
+      - parallel:
+          - step:
+              name: Run codestyle linters
+              script:
+                - rsync -a --delete ${BITBUCKET_CLONE_DIR}/ /var/www/html/plugins/${BITBUCKET_REPO_SLUG}
+                - sudo chown -R mysql:mysql /var/lib/mysql /var/run/mysqld
+                - sudo service mysql start;
+                - cd /var/www/html/plugins/${BITBUCKET_REPO_SLUG}
+                - composer lint
+          - step:
+              name: Run PHPUnit Coverage
+              script:
+                - sudo chown -R mysql:mysql /var/lib/mysql /var/run/mysqld
+                - sudo service mysql start;
+                - cd /var/www
+                - make switch-php version=8.3
+                - make xdebug-on
+                - rm -rf ~/html/var/cache/*
+                - XDEBUG_MODE=coverage php -d pcov.enabled=1 -d pcov.directory=/var/www/html /var/www/html/plugins/${BITBUCKET_REPO_SLUG}/vendor/krme/shopware6-plugin-scripts/vendor-bin/phpunit/vendor/bin/phpunit --configuration /var/www/html/plugins/${BITBUCKET_REPO_SLUG}/phpunit.xml.dist --log-junit ${BITBUCKET_CLONE_DIR}/test-reports/phpunit.junit.xml --colors=never --coverage-clover ${BITBUCKET_CLONE_DIR}/test-reports/phpunit.clover.xml --coverage-html ${BITBUCKET_CLONE_DIR}/test-reports/phpunit-coverage-html --coverage-text
+                - rm -rf /var/www/html/plugins/${BITBUCKET_REPO_SLUG}/vendor
+                - cp -av /var/www/html/plugins/${BITBUCKET_REPO_SLUG} ${BITBUCKET_CLONE_DIR}
+                - cd /var/www
+              caches:
+                - npm
+              artifacts:
+                - test-reports/*
+                - ${BITBUCKET_REPO_SLUG}/**
+              services:
+                - redis
+      - step:
+          name: Check Quality on Sonarqube
+          image: sonarsource/sonar-scanner-cli:5.0.1
+          script:
+            - mkdir -p /var/www/html/custom/plugins/
+            - rm -rf /var/www/html/.git
+            - cp -av ${BITBUCKET_REPO_SLUG} /var/www/html/custom/plugins/
+            - sonar-scanner -D"sonar.token=${SONAR_TOKEN}" -D"sonar.projectBaseDir=/var/www/html/custom/plugins/${BITBUCKET_REPO_SLUG}" -D"sonar.test.inclusions=**/*.spec.js" -D"sonar.php.coverage.reportPaths=${BITBUCKET_CLONE_DIR}/test-reports/phpunit.clover.xml" -D"sonar.php.tests.reportPath=${BITBUCKET_CLONE_DIR}/test-reports/phpunit.junit.xml"

@@ -1,0 +1,44 @@
+{
+    "source": {
+        "directories": [
+            "src"
+        ],
+        "excludes": [
+            "tests",
+        ]
+    },
+    "timeout": 60,
+    "logs": {
+        "text": "infection.log",
+        "html": "infection.html",
+        "summary": "summary.log",
+        "json": "infection-log.json",
+        "perMutator": "per-mutator.md",
+        "summaryJson": "summary.json"
+    },
+    "tmpDir": "./var/tmp-folder",
+    "phpUnit": {
+        "configDir": "./",
+        "customPath": "./vendor-bin/phpunit/vendor/bin/phpunit"
+    },
+    "mutators": {
+        "global-ignore": [
+            "FooClass::__construct"
+        ],
+        "global-ignoreSourceCodeByRegex": [
+            "Assert::.*"
+        ],
+        "@default": true,
+        "@function_signature": false,
+        "TrueValue": {
+            "ignore": [
+                "NameSpace\\*\\Class::method"
+            ],
+            "ignoreSourceCodeByRegex": [
+                "\\$this->logger.*"
+            ]
+        }
+    },
+    "testFramework":"phpunit",
+    "bootstrap":"./tests/TestBootstrap.php"
+}
