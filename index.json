@@ -5,7 +5,8 @@
     },
     "recipes": {
         "krme/code-quality-meta": [
-            "0.1"
+            "0.1",
+            "6.6.0"
         ]
     },
     "recipe-conflicts": [],
