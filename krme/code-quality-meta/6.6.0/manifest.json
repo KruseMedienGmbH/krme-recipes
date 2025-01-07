@@ -5,7 +5,9 @@
   "copy-from-recipe": {
     "vendor-bin/": "vendor-bin/",
     "root/": "",
-    "tests/": "tests/"
+    "tests/": "tests/",
+    "administration/": "src/Resources/app/administration",
+    "storefront/": "src/Resources/app/storefront"
   },
   "gitignore": [
     "auth.json",
