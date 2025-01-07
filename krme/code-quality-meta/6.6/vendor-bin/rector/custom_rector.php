@@ -29,20 +29,20 @@ return RectorConfig::configure()
         strictBooleans: true,
         symfonyCodeQuality: true
     )
-    ->withSymfonyContainerPhp(__DIR__ . '/tests/RectorSymfonyContainerBootstrap.php')
-    ->withSymfonyContainerXml(__DIR__ . '/../../../var/cache/phpstan_dev/Shopware_Core_DevOps_StaticAnalyze_StaticAnalyzeKernelPhpstan_devDebugContainer.xml')
+    ->withSymfonyContainerPhp(__DIR__ . '/../../tests/RectorSymfonyContainerBootstrap.php')
+    ->withSymfonyContainerXml(__DIR__ . '/../../../../../var/cache/phpstan_dev/Shopware_Core_DevOps_StaticAnalyze_StaticAnalyzeKernelPhpstan_devDebugContainer.xml')
     ->withPaths([
-        __DIR__ . '/src',
+        __DIR__ . '/../../src',
     ])
     ->withSkip(
         []
     )
     ->withBootstrapFiles([
-        __DIR__ . '/tests/PHPStanBootstrap.php',
+        __DIR__ . '/../../tests/PHPStanBootstrap.php',
     ])
     ->withPhpVersion(PhpVersion::PHP_82)
     ->withAutoloadPaths([
-        __DIR__ . '/../../../vendor/store.shopware.com',
+        __DIR__ . '/../../../../../vendor/store.shopware.com',
     ])
     ->withPhpSets(
         php83: true
