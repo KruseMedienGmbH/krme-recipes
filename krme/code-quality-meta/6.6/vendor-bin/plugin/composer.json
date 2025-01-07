@@ -3,7 +3,9 @@
     "shopware/core": "*",
     "shopware/administration": "*",
     "shopware/storefront": "*",
-    "shopware/elasticsearch": "*"
+    "shopware/elasticsearch": "*",
+    "symfony/flex": "*",
+    "krme/code-quality-meta": "*"
   },
   "require-dev": {
     "theofidry/composer-inheritance-plugin": "^1.2"
