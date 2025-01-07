@@ -1,0 +1,21 @@
+{
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts",
+    "src/styles"
+  ],
+  "compilerOptions": {
+    "removeComments": true,
+    "target": "es6",
+    "module": "es6",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "noEmit": false,
+    "esModuleInterop": true,
+    "strict": false,
+    "experimentalDecorators": true
+  }
+}

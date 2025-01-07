@@ -1,0 +1,17 @@
+{
+  "provide": {
+    "shopware/core": "*",
+    "shopware/administration": "*",
+    "shopware/storefront": "*",
+    "shopware/elasticsearch": "*"
+  },
+  "require-dev": {
+    "theofidry/composer-inheritance-plugin": "^1.2"
+  },
+  "config": {
+    "allow-plugins": {
+      "wikimedia/composer-merge-plugin": true,
+      "theofidry/composer-inheritance-plugin": true
+    }
+  }
+}

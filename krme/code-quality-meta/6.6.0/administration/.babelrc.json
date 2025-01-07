@@ -1,0 +1,3 @@
+{
+  "extends": "../../../../vendor/shopware/administration/Resources/app/administration/.babelrc"
+}
