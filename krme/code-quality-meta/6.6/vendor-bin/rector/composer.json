@@ -1,4 +1,12 @@
 {
+  "provide": {
+    "shopware/core": "*",
+    "shopware/administration": "*",
+    "shopware/storefront": "*",
+    "shopware/elasticsearch": "*",
+    "symfony/flex": "*",
+    "krme/code-quality-meta": "*"
+  },
   "require-dev": {
     "rector/rector": "^2.0.0",
     "theofidry/composer-inheritance-plugin": "^1.2",
