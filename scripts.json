@@ -1,0 +1,116 @@
+{
+  "scripts": {
+    "bin": "echo 'bin not installed'",
+    "post-install-cmd": [
+      "@composer bin all update --ansi"
+    ],
+    "post-update-cmd": [
+      "@post-install-cmd"
+    ],
+    "install-storefront-node-modules": [
+      "npm list eslint --prefix ./vendor/shopware/storefront/Resources/app/storefront || npm i --prefix ./vendor/shopware/storefront/Resources/app/storefront"
+    ],
+    "storefront-lint": [
+      "@install-storefront-node-modules",
+      "./vendor/shopware/storefront/Resources/app/storefront/node_modules/.bin/eslint --ignore-path .eslintignore --config ./src/Resources/app/storefront/.eslintrc.js --resolve-plugins-relative-to ./vendor/shopware/storefront/Resources/app/storefront ./src/Resources/app/storefront"
+    ],
+    "storefront-fix": [
+      "@install-storefront-node-modules",
+      "./vendor/shopware/storefront/Resources/app/storefront/node_modules/.bin/eslint --ignore-path .eslintignore --config ./src/Resources/app/storefront/.eslintrc.js --resolve-plugins-relative-to ./vendor/shopware/storefront/Resources/app/storefront --fix ./src/Resources/app/storefront"
+    ],
+    "stylelint-lint": [
+      "@install-storefront-node-modules",
+      "./vendor/shopware/storefront/Resources/app/storefront/node_modules/.bin/stylelint --custom-syntax postcss-scss --config ./.stylelintrc ./src/Resources/app/storefront/src/scss"
+    ],
+    "stylelint-fix": [
+      "@install-storefront-node-modules",
+      "./vendor/shopware/storefront/Resources/app/storefront/node_modules/.bin/stylelint --custom-syntax postcss-scss --config ./.stylelintrc --fix ./src/Resources/app/storefront/src/scss"
+    ],
+    "install-administration-node-modules": [
+      "npm list eslint --prefix ./vendor/shopware/administration/Resources/app/administration || npm i --prefix ./vendor/shopware/administration/Resources/app/administration"
+    ],
+    "administration-lint": [
+      "@install-administration-node-modules",
+      "./vendor/shopware/administration/Resources/app/administration/node_modules/.bin/eslint --config ./src/Resources/app/administration/.eslintrc.js --resolve-plugins-relative-to ./vendor/shopware/administration/Resources/app/administration --ext .js,.ts,.vue,.html.twig ./src/Resources/app/administration"
+    ],
+    "administration-fix": [
+      "@install-administration-node-modules",
+      "./vendor/shopware/administration/Resources/app/administration/node_modules/.bin/eslint --config ./src/Resources/app/administration/.eslintrc.js --resolve-plugins-relative-to ./vendor/shopware/administration/Resources/app/administration --fix --ext .js,.ts,.vue,.html.twig ./src/Resources/app/administration"
+    ],
+    "rector-lint": [
+      "./vendor-bin/rector/vendor/bin/rector process --ansi --dry-run"
+    ],
+    "rector-fix": [
+      "./vendor-bin/rector/vendor/bin/rector process --ansi"
+    ],
+    "ecs-lint": [
+      "./vendor-bin/cs/vendor/bin/ecs check --ansi --dry-run"
+    ],
+    "ecs-fix": [
+      "./vendor-bin/cs/vendor/bin/ecs check --ansi --fix"
+    ],
+    "phpmd": [
+      "./vendor-bin/cs/vendor/bin/phpmd src ansi rulesets.xml"
+    ],
+    "lint": [
+      "@rector-lint",
+      "@ecs-lint",
+      "@administration-lint",
+      "@storefront-lint",
+      "@stylelint-lint",
+      "@ludtwig-lint"
+    ],
+    "fix": [
+      "@rector-fix",
+      "@ecs-fix",
+      "@administration-fix",
+      "@storefront-fix",
+      "@stylelint-fix",
+      "@ludtwig-fix"
+    ],
+    "build": [
+      "shopware-cli extension build ."
+    ],
+    "prepare": [
+      "shopware-cli extension prepare ."
+    ],
+    "zip": [
+      "shopware-cli extension zip . --disable-git --release"
+    ],
+    "phpstan": [
+      "./vendor-bin/phpstan/vendor/bin/phpstan analyze --configuration ./phpstan.neon src"
+    ],
+    "prepare-push": [
+      "@fix",
+      "@phpstan",
+      "@build"
+    ],
+    "infection": [
+      "./vendor-bin/phpunit/vendor/bin/infection --min-msi=48 --min-covered-msi=70 --threads=4 --coverage=coverage --skip-initial-tests"
+    ],
+    "phpunit": [
+      "@putenv SYMFONY_DEPRECATIONS_HELPER=disabled",
+      "./vendor-bin/phpunit/vendor/bin/phpunit"
+    ],
+    "phpunit-coverage": [
+      "@putenv SYMFONY_DEPRECATIONS_HELPER=disabled",
+      "@putenv COMPOSER=XDEBUG_MODE=coverage",
+      "cd ../../../../ && make xdebug-on",
+      "./vendor-bin/phpunit/vendor/bin/phpunit --coverage-html coverage --coverage-xml=coverage-xml --log-junit=coverage/junit.xml",
+      "cd ../../../../ && make xdebug-off"
+    ],
+    "install-ludtwig": [
+      "curl -L https://github.com/MalteJanz/ludtwig/releases/download/v0.9.0/ludtwig-0.9.0-x86_64-unknown-linux-gnu.tar.gz -o ./../../ludtwig-0.9.0-x86_64-unknown-linux-gnu.tar.gz",
+      "tar -xzf ./../../ludtwig-0.9.0-x86_64-unknown-linux-gnu.tar.gz -C /var/www/html",
+      "chmod +x /var/www/html/ludtwig"
+    ],
+    "ludtwig-lint": [
+      "@install-ludtwig",
+      "/var/www/html/ludtwig --config-path ./vendor/shopware/storefront/Resources/views/ludtwig-config.toml ./src/Resources/views/storefront"
+    ],
+    "ludtwig-fix": [
+      "@install-ludtwig",
+      "/var/www/html/ludtwig --config-path ./vendor/shopware/storefront/Resources/views/ludtwig-config.toml --fix ./src/Resources/views/storefront"
+    ]
+  }
+}
