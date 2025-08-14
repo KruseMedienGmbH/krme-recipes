@@ -1,22 +1,11 @@
 {
     "aliases": {
-        "code-quality": "krme/code-quality-meta",
-        "code-quality-administration": "shopware/administration",
-        "code-quality-storefront": "shopware/storefront",
-        "codequality": "krme/code-quality-meta",
-        "codequalityadministration": "shopware/administration",
-        "codequalitystorefront": "shopware/storefront"
+        "code-quality": "krme/shopware-platform-tools",
+        "codequality": "krme/shopware-platform-tools"
     },
     "recipes": {
-        "krme/code-quality-meta": [
-            "0.1",
-            "6.6"
-        ],
-        "shopware/administration": [
-            "6.6"
-        ],
-        "shopware/storefront": [
-            "6.6"
+        "krme/shopware-platform-tools": [
+            "1.0"
         ]
     },
     "recipe-conflicts": [],
