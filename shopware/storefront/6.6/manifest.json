@@ -1,9 +1,0 @@
-{
-  "aliases": [
-    "code-quality-storefront"
-  ],
-  "copy-from-recipe": {
-    "storefront/": "src/Resources/app/storefront",
-    "root/": ""
-  }
-}

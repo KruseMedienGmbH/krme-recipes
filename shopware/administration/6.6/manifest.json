@@ -1,8 +1,0 @@
-{
-  "aliases": [
-    "code-quality-administration"
-  ],
-  "copy-from-recipe": {
-    "administration/": "src/Resources/app/administration"
-  }
-}

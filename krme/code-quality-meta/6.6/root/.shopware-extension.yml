@@ -1,8 +1,0 @@
-# .shopware-extension.yml
-build:
-  shopwareVersionConstraint: '~6.6.0'
-  zip:
-    composer:
-      enabled: true
-    assets:
-      enabled: true

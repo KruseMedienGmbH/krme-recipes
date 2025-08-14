@@ -1,0 +1,23 @@
+build:
+  keep_extension_source: true
+  disable_asset_copy: false
+  keep_node_modules:
+    - 'custom/static-plugins/##PLUGIN##/src/Resources/app/storefront/node_modules'
+  browserslist: '> 0.1% and not dead'
+  cleanup_paths:
+    - imports
+    - var/cache
+    - var/log
+  exclude_extensions:
+    - Plugin
+  force_extension_build:
+    - name: '##PLUGIN##'
+deployment:
+  store:
+    license-domain: '##DOMAIN##'
+
+
+validation:
+  ignore:
+    - identifier: 'phpstan/shopware.forbidLocalDiskWrite'
+    - identifier: 'phpstan/shopware.internalMethodCall'
