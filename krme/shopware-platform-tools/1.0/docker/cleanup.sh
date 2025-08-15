@@ -14,18 +14,19 @@ sudo apt install shopware-cli && \
 
 dpkg --get-selections | grep php8.2 | cut -f1 | sed 's/php8.2/php8.3/g' | xargs sudo apt-get install -y && \
 
-~/.nvm/install.sh && \
+/var/www/.nvm/install.sh && \
 
 sed -i 's/__PHP__FOLDER__ID/20230831/g' /etc/php/8.3/fpm/conf.d/20-xdebug.ini || true && \
 sed -i 's/__PHP_VERSION__/8.3/g' /etc/php/8.3/fpm/conf.d/20-xdebug.ini || true && \
 sed -i 's/__PHP__FOLDER__ID/20230831/g' /etc/php/8.3/cli/conf.d/20-xdebug.ini || true && \
 sed -i 's/__PHP_VERSION__/8.3/g' /etc/php/8.3/cli/conf.d/20-xdebug.ini || true && \
 
-nvm install 22 && \
-
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" && \
+
+nvm install 22 && \
+
 # Löscht alte Node.js Versionen
 rm -rf /var/www/.nvm/versions/node/v12* && \
 rm -rf /var/www/.nvm/versions/node/v14* && \
