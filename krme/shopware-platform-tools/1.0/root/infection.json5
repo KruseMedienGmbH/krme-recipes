@@ -19,7 +19,7 @@
     "tmpDir": "./var/tmp-folder",
     "phpUnit": {
         "configDir": "./",
-        "customPath": "./vendor-bin/phpunit/vendor/bin/phpunit"
+        "customPath": "./vendor/bin/phpunit"
     },
     "mutators": {
         "global-ignore": [

@@ -9,6 +9,7 @@ parameters:
         - vendor/shopware/core/DevOps/StaticAnalyze/phpstan-bootstrap.php
 
     paths:
+        - vendor/krme
 
     symfony:
         constantHassers: false
