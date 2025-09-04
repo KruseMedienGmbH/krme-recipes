@@ -1,18 +1,22 @@
 build:
   keep_extension_source: true
   disable_asset_copy: false
-  keep_node_modules:
-    - 'custom/static-plugins/##PLUGIN##/src/Resources/app/storefront/node_modules'
   browserslist: '> 0.1% and not dead'
   cleanup_paths:
     - imports
     - var/cache
     - var/log
-  exclude_extensions:
-    - Plugin
-  force_extension_build:
-    - name: '##PLUGIN##'
 deployment:
+  extension-management:
+    enabled: true
+
+    exclude:
+      - 'FroshDeploymentHelper'
+      - 'FroshLazySizes'
+
+  hooks:
+    pre-update: |
+      ../../current/bin/dump.sh
   store:
     license-domain: '##DOMAIN##'
 
