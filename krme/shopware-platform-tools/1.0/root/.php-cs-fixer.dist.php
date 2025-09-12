@@ -67,7 +67,7 @@ return (new Config())
     ->setFinder(
         (new Finder())
             ->in([
-                __DIR__ . '/custom/static-plugins',
+                __DIR__ . '/custom',
             ])
             ->exclude(['node_modules', '*/vendor/*', '*/tests/*'])
     );

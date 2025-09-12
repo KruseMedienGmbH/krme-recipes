@@ -39,6 +39,9 @@ return RectorConfig::configure()
     ->withSkip(
         []
     )
+    ->withPaths([
+        __DIR__ . '/custom',
+    ])
     ->withBootstrapFiles([
         __DIR__ . '/vendor/shopware/core/DevOps/StaticAnalyze/phpstan-bootstrap.php',
     ])
