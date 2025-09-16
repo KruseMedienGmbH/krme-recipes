@@ -1,7 +1,7 @@
 build:
   keep_extension_source: true
   disable_asset_copy: false
-  browserslist: '> 0.1% and not dead'
+  remove_extension_assets: false
   cleanup_paths:
     - imports
     - var/cache
@@ -12,7 +12,6 @@ deployment:
 
     exclude:
       - 'FroshDeploymentHelper'
-      - 'FroshLazySizes'
 
   hooks:
     pre-update: |
