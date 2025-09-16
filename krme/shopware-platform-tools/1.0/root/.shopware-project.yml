@@ -11,7 +11,7 @@ deployment:
     enabled: true
 
     exclude:
-      - 'FroshDeploymentHelper'
+      - 'FroshDevelopmentHelper'
 
   hooks:
     pre-update: |
