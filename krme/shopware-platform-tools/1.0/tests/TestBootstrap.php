@@ -13,6 +13,6 @@ $loader = (new TestBootstrapper())
     ->bootstrap()
     ->getClassLoader();
 
-$loader->addPsr4('Plugin\\Tests\\', __DIR__ . '/../custom/static-plugins/Plugin/tests');
+//$loader->addPsr4('Plugin\\Tests\\', __DIR__ . '/../custom/static-plugins/Plugin/tests');
 
 return $loader;

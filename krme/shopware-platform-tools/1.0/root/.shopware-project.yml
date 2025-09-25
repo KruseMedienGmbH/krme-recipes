@@ -3,7 +3,6 @@ build:
   disable_asset_copy: false
   remove_extension_assets: false
   cleanup_paths:
-    - imports
     - var/cache
     - var/log
 deployment:

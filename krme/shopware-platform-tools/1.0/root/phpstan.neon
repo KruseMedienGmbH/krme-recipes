@@ -8,9 +8,6 @@ parameters:
     bootstrapFiles:
         - vendor/shopware/core/DevOps/StaticAnalyze/phpstan-bootstrap.php
 
-    paths:
-        - vendor/krme
-
     symfony:
         constantHassers: false
         containerXmlPath: 'var/cache/static_phpstan_dev/Shopware_Core_DevOps_StaticAnalyze_StaticAnalyzeKernelPhpstan_devDebugContainer.xml'
