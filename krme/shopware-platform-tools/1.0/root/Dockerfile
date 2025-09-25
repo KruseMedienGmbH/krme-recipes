@@ -1,17 +1,8 @@
 FROM dockware/shopware-essentials:latest AS dockware
 
-ARG PACKAGESTOKEN
-ARG BITBUCKET_USER
-ARG BITBUCKET_APP_PASSWORD
-ARG GITHUBTOKEN
-
 USER dockware
 
 COPY --chown=33:33 . /var/www/html
-
-RUN composer config bearer.packages.shopware.com ${PACKAGESTOKEN} && \
-    composer config bitbucket-oauth.bitbucket.org ${BITBUCKET_USER} ${BITBUCKET_APP_PASSWORD} &&\
-    composer config github-oauth.github.com ${GITHUBTOKEN}
 
 RUN echo "DOCKWARE: decompressing NVM..." && \
     sudo zstd -d /var/www/nvm.tar.zst -o /var/www/nvm.tar && \
