@@ -12,7 +12,7 @@ COPY --chown=33:33 . /var/www/html
 RUN echo "DOCKWARE: decompressing NVM..." && \
     sudo zstd -d /var/www/nvm.tar.zst -o /var/www/nvm.tar && \
     sudo tar -xf /var/www/nvm.tar -C /var/www/.nvm && \
-    sudo rm /var/www/nvm.tar.zst /var/www/nvm.tar && \
+    sudo rm /var/www/nvm.tar && \
     sudo chown 33:33 /var/www/.nvm -R && \
     echo "DOCKWARE: NVM decompression completed successfully"
 
