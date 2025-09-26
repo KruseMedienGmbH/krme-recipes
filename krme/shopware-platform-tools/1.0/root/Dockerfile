@@ -14,6 +14,7 @@ RUN echo "DOCKWARE: decompressing NVM..." && \
 RUN composer install --no-scripts
 
 RUN sudo service mysql start && \
+    sudo composer self-update && \
     SHOPWARE_DEPLOYMENT_TIMEOUT=900 INSTALL_LOCALE=de-DE SHOPWARE_USAGE_DATA_CONSENT=revoked vendor/bin/shopware-deployment-helper run --skip-assets-install --skip-theme-compile && \
     MYSQL_PWD=root mysql -h 127.0.0.1 -u root shopware -e "SET FOREIGN_KEY_CHECKS=0;SET autocommit=0;SET UNIQUE_CHECKS=0;" && \
     MYSQL_PWD=root mysql -h 127.0.0.1 -u root shopware --default-character-set=utf8mb4 --force < bin/localhost.sql && \
@@ -52,8 +53,7 @@ RUN sudo killall mysqld || true && \
     rm -rf /var/www/html/var/log/* && \
     rm -rf /var/www/html/var/cache/* && \
     sudo rm -rf /dockware/tmp && \
-    sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
-    tar -cf - -C /var/www/.nvm . | zstd --ultra -22 -o /var/www/nvm.tar.zst
+    sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN tar -cf - -C /var/www/html . | zstd --ultra -22 -o /var/www/shopware.tar.zst && \
     find /var/www/html -mindepth 1 -delete && \
