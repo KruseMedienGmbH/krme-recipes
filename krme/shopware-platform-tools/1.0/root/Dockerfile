@@ -16,14 +16,50 @@ RUN echo "DOCKWARE: decompressing NVM..." && \
     sudo chown 33:33 /var/www/.nvm -R && \
     echo "DOCKWARE: NVM decompression completed successfully"
 
-RUN composer install --no-scripts
-
-RUN sudo service mysql start && \
+RUN echo '1:composer-update' && \
     sudo composer self-update && \
+    composer install --no-scripts
+
+RUN echo '2:base-install' && \
+    sudo service mysql start && \
     SHOPWARE_DEPLOYMENT_TIMEOUT=900 INSTALL_LOCALE=de-DE SHOPWARE_USAGE_DATA_CONSENT=revoked vendor/bin/shopware-deployment-helper run --skip-assets-install --skip-theme-compile && \
-    MYSQL_PWD=root mysql -h 127.0.0.1 -u root shopware -e "SET FOREIGN_KEY_CHECKS=0;SET autocommit=0;SET UNIQUE_CHECKS=0;" && \
-    MYSQL_PWD=root mysql -h 127.0.0.1 -u root shopware --default-character-set=utf8mb4 --force < bin/localhost.sql && \
-    MYSQL_PWD=root mysql -h 127.0.0.1 -u root shopware -e "COMMIT;SET FOREIGN_KEY_CHECKS=1;SET autocommit=1;SET UNIQUE_CHECKS=1;" && \
+    service mysql stop
+
+RUN echo '3:insert-dump' && \
+    sudo apt-get update -y && \
+    sudo apt-get install -y pigz && \
+    pigz -9 bin/localhost.sql && \
+    tmpfile="$(mktemp)" && \
+    printf "%s\n" \
+      "[mysqld]" \
+      "innodb_buffer_pool_size=1G" \
+      "innodb_log_file_size=512M" \
+      "innodb_flush_method=O_DIRECT" \
+      "innodb_flush_log_at_trx_commit=2" \
+      "innodb_doublewrite=0" \
+      "sync_binlog=0" > "$tmpfile" && \
+    sudo install -o root -g root -m 644 "$tmpfile" /etc/mysql/mysql.conf.d/zz-imprt.cnf && \
+    rm -f "$tmpfile" && \
+    sudo service mysql start && \
+    MYSQL_PWD=root mysql -h 127.0.0.1 -u root shopware -e "SET FOREIGN_KEY_CHECKS=0; SET UNIQUE_CHECKS=0; SET autocommit=0;" && \
+    zcat bin/localhost.sql.gz | MYSQL_PWD=root mysql -h 127.0.0.1 -u root shopware --default-character-set=utf8mb4 --force --max-allowed-packet=512M && \
+    MYSQL_PWD=root mysql -h 127.0.0.1 -u root shopware -e "COMMIT; SET FOREIGN_KEY_CHECKS=1; SET UNIQUE_CHECKS=1; SET autocommit=1;" && \
+    MYSQL_PWD=root mysql -h 127.0.0.1 -u root shopware -e "SET GLOBAL innodb_fast_shutdown = 0" && \
+    service mysql stop && \
+    sudo rm -f /etc/mysql/mysql.conf.d/zz-imprt.cnf && \
+    tmpfile="$(mktemp)" && \
+    printf "%s\n" \
+      "[mysqld]" \
+      "innodb_buffer_pool_size=1G" \
+      "innodb_log_file_size=512M" > "$tmpfile" && \
+    sudo install -o root -g root -m 644 "$tmpfile" /etc/mysql/mysql.conf.d/zz-imprt.cnf && \
+    rm -f "$tmpfile" && \
+    sudo killall mysqld || true && \
+    sudo rm -f "/var/run/mysqld/mysqld.sock.lock" && \
+    sudo chown -R mysql:mysql /var/lib/mysql /var/run/mysqld
+
+RUN echo '4:install' && \
+    sudo service mysql start && \
     chmod +x bin/* && \
     touch install.lock && \
     bin/console sales-channel:update:domain localhost && \
@@ -33,32 +69,9 @@ RUN sudo service mysql start && \
     shopware-cli project admin-build && \
     bin/build-storefront.sh && \
     shopware-cli project storefront-build && \
-    rm bin/localhost.sql && \
+    rm bin/localhost.sql.gz && \
     vendor/bin/shopware-deployment-helper run && \
     service mysql stop
-
-# Clean Up
-RUN sudo killall mysqld || true && \
-    sudo rm -f "/var/run/mysqld/mysqld.sock.lock" && \
-    sudo chown -R mysql:mysql /var/lib/mysql /var/run/mysqld && \
-    sudo apt-get update -y && \
-    sudo apt-get upgrade -y && \
-    rm -rf /var/www/.nvm/.cache/* && \
-    sudo apt autoremove --purge -y && \
-    rm -rf /var/log/*.gz /var/log/*.[0-9] && \
-    sudo truncate -s 0 /var/log/*.log && \
-    sudo apt-get clean && \
-    sudo apt-get autoremove --purge -y && \
-    rm -rf .git && \
-    sudo rm -rf /var/cache/* && \
-    find /var/www/html -type d -name 'node_modules' -exec rm -rf {} + && \
-    find /var/www/html/custom -type d -name 'vendor' -exec rm -rf {} + && \
-    sudo rm -rf /var/www/.cache/* && \
-    sudo rm -rf /var/www/.npm/* && \
-    rm -rf /var/www/html/var/log/* && \
-    rm -rf /var/www/html/var/cache/* && \
-    sudo rm -rf /dockware/tmp && \
-    sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN tar -cf - -C /var/www/html . | zstd --ultra -22 -o /var/www/shopware.tar.zst && \
     find /var/www/html -mindepth 1 -delete && \
