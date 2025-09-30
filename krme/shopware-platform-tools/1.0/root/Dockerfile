@@ -73,6 +73,30 @@ RUN echo '4:install' && \
     vendor/bin/shopware-deployment-helper run && \
     service mysql stop
 
+# Clean Up
+RUN echo '5:clean-up' && \
+    sudo killall mysqld || true && \
+    sudo rm -f "/var/run/mysqld/mysqld.sock.lock" && \
+    sudo chown -R mysql:mysql /var/lib/mysql /var/run/mysqld && \
+    sudo apt-get update -y && \
+    sudo apt-get upgrade -y && \
+    rm -rf /var/www/.nvm/.cache/* && \
+    sudo apt autoremove --purge -y && \
+    rm -rf /var/log/*.gz /var/log/*.[0-9] && \
+    sudo truncate -s 0 /var/log/*.log && \
+    sudo apt-get clean && \
+    sudo apt-get autoremove --purge -y && \
+    rm -rf .git && \
+    sudo rm -rf /var/cache/* && \
+    find /var/www/html -type d -name 'node_modules' -exec rm -rf {} + && \
+    find /var/www/html/custom -type d -name 'vendor' -exec rm -rf {} + && \
+    sudo rm -rf /var/www/.cache/* && \
+    sudo rm -rf /var/www/.npm/* && \
+    rm -rf /var/www/html/var/log/* && \
+    rm -rf /var/www/html/var/cache/* && \
+    sudo rm -rf /dockware/tmp && \
+    sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 RUN tar -cf - -C /var/www/html . | zstd --ultra -22 -o /var/www/shopware.tar.zst && \
     find /var/www/html -mindepth 1 -delete && \
     # we need the zst in the html folder. if existing entrypoint.sh will decompress it \
