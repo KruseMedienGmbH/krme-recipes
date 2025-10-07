@@ -1,7 +1,65 @@
+# Dependencies (installed during build)
 node_modules
 vendor
-**/vendor
 **/node_modules
+**/vendor
+
+# Cache and temporary files
 **/var/cache
 **/var/log
-**/imports
+var/cache
+var/log
+.cache
+*.log
+
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# Docker files (avoid recursion)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# IDE and editor files
+.idea
+.vscode
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing and CI/CD
+tests
+phpunit.xml.dist
+infection.json5
+.phpunit.result.cache
+phpstan.neon
+rector.php
+
+# Documentation
+README.md
+*.md
+docs
+
+# Deployment and configuration
+deploy.php
+bitbucket-pipelines.yml
+renovate.json
+
+# Build artifacts
+*.tar
+*.tar.gz
+*.tar.zst
+*.zip
+
+# Temporary and backup files
+tmp
+*.tmp
+*.bak
+
+# Project specific
+imports
+sonar-project.properties
+rulesets.xml
