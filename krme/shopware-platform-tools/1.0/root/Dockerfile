@@ -48,6 +48,7 @@ RUN echo "==> STEP 2: Installing system dependencies and Composer packages..." &
     echo "==> System dependencies and Composer setup completed"
 
 RUN echo "==> STEP 3: Removing specific config files..." && \
+    rm -rf custom/plugins/* && \
     find config/packages -maxdepth 1 \( \
         -type d \( -name 'dev' -o -name 'prod' -o -name 'test' \) -o \
         -type f \( -name 'framework.yaml' -o -name 'messenger.yaml' -o -name 'storefront.yaml' -o -name 'z-shopware.yaml' \) \
@@ -92,6 +93,8 @@ RUN echo "==> STEP 5: Building Shopware application..." && \
     sudo service mysql start && \
     chmod +x bin/* && \
     touch install.lock && \
+    bin/console system:generate-jwt-secret && \
+    bin/console user:create -a -p shopware admin && \
     bin/console sales-channel:update:domain localhost && \
     MYSQL_PWD=root mysql -h 127.0.0.1 -u root shopware -e "UPDATE sales_channel_domain SET url = REPLACE(url, 'https', 'http') WHERE url LIKE 'https:%';" && \
     bin/console theme:dump -n && \
