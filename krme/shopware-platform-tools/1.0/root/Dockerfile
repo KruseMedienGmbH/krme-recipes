@@ -91,6 +91,7 @@ RUN echo "==> STEP 4: Preparing and importing database dump..." && \
 
 RUN echo "==> STEP 5: Building Shopware application..." && \
     sudo service mysql start && \
+    find bin -type f ! -name "*.sql" -exec sed -i 's/\r$//' {} + && \
     chmod +x bin/* && \
     touch install.lock && \
     bin/console system:generate-jwt-secret && \
