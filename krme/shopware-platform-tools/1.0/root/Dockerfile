@@ -102,6 +102,7 @@ RUN echo "==> STEP 5: Building Shopware application..." && \
     shopware-cli project admin-build && \
     bin/build-storefront.sh && \
     shopware-cli project storefront-build && \
+    bin/console fixture:load 2>/dev/null || true && \
     rm bin/localhost.sql.gz && \
     vendor/bin/shopware-deployment-helper run && \
     sudo service mysql stop && \
