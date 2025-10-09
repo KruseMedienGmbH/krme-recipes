@@ -97,7 +97,7 @@ RUN echo "==> STEP 5: Building Shopware application..." && \
     bin/console system:generate-jwt-secret && \
     bin/console user:create -a -p shopware admin && \
     bin/console sales-channel:update:domain localhost && \
-    MYSQL_PWD=root mysql -h 127.0.0.1 -u root shopware -e "UPDATE sales_channel_domain SET url = REPLACE(url, 'https', 'http') WHERE url LIKE 'https:%';" && \
+    MYSQL_PWD=root mysql -h 127.0.0.1 -u root shopware -e "UPDATE sales_channel_domain SET url = REPLACE(url, 'https', 'http') WHERE url LIKE 'https://localhost%';" && \
     bin/console theme:dump -n && \
     vendor/bin/platform-tools misc:update_shopware_cli && \
     shopware-cli project admin-build && \
