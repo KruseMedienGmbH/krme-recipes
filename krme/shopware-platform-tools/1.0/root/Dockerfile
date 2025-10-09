@@ -115,11 +115,12 @@ RUN echo "==> STEP 6: Cleaning up build artifacts..." && \
     sudo killall mysqld 2>/dev/null || true && \
     sudo rm -f /var/run/mysqld/mysqld.sock.lock && \
     sudo chown -R mysql:mysql /var/lib/mysql /var/run/mysqld && \
-    rm -rf /var/www/{.nvm/.cache,.cache,.npm} \
-           /var/www/html/var/{log,cache}/* \
-           .git && \
-    find /var/www/html -type d -name 'node_modules' -prune -exec rm -rf {} + 2>/dev/null || true && \
-    find /var/www/html/custom -type d -name 'vendor' -prune -exec rm -rf {} + 2>/dev/null || true && \
+    sudo find /var/www -maxdepth 1 \( -name '.cache' -o -name '.npm' \) -prune -exec rm -rf {} + && \
+    sudo find /var/www/.nvm -mindepth 1 -delete && \
+    sudo find /var/www/html/var -maxdepth 2 -mindepth 2 \( -path '*/log/*' -o -path '*/cache/*' \) -exec rm -rf {} + && \
+    sudo find /var/www/html -maxdepth 1 -name '.git' -prune -exec rm -rf {} + &&\
+    find /var/www/html -type d -name 'node_modules' -prune -exec rm -rf {} + && \
+    find /var/www/html/custom -type d -name 'vendor' -prune -exec rm -rf {} + && \
     sudo apt-get autoremove --purge -y && \
     sudo apt-get clean && \
     sudo rm -rf /var/log/*.{gz,[0-9]} && \
