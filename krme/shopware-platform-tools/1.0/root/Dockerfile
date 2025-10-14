@@ -94,7 +94,7 @@ RUN echo "==> STEP 5: Building Shopware application..." && \
     find bin -type f ! -name "*.sql" -exec sed -i 's/\r$//' {} + && \
     chmod +x bin/* && \
     touch install.lock && \
-    bin/console system:generate-jwt-secret && \
+    bin/console system:generate-jwt-secret 2>/dev/null || true && \
     bin/console user:create -a -p shopware admin && \
     bin/console sales-channel:update:domain localhost && \
     MYSQL_PWD=root mysql -h 127.0.0.1 -u root shopware -e "UPDATE sales_channel_domain SET url = REPLACE(url, 'https', 'http') WHERE url LIKE 'https://localhost%';" && \
@@ -136,6 +136,9 @@ RUN echo "==> STEP 7: Creating compressed application archive..." && \
     tar -cf - -C /var/www/html . | zstd -T0 -19 -o /var/www/shopware.tar.zst && \
     find /var/www/html -mindepth 1 -delete && \
     mv /var/www/shopware.tar.zst /var/www/html/shopware.tar.zst && \
+    echo "export HOST=0.0.0.0" | sudo tee -a /var/www/.bashrc && \
+    echo "export VITE_EXTENSIONS_SERVER_HOST=localhost" | sudo tee -a /var/www/.bashrc && \
+    echo "export VITE_EXTENSIONS_SERVER_SCHEME=http" | sudo tee -a /var/www/.bashrc && \
     sudo sed -i 's/export \([^=]*\)=\(.*\)/export \1=${\1:-\2}/' /etc/profile && \
     echo ". /etc/profile" >> /var/www/.bashrc && \
     echo "==> Archive creation completed"
