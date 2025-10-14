@@ -22,9 +22,7 @@ LABEL org.opencontainers.image.title="Shopware 6 ##" \
 
 # Build arguments for Shopware Store credentials
 ARG SHOPWARE_STORE_ACCOUNT_EMAIL
-ARG SHOPWARE_STORE_ACCOUNT_PASSWORD
 ENV SHOPWARE_STORE_ACCOUNT_EMAIL=$SHOPWARE_STORE_ACCOUNT_EMAIL
-ENV SHOPWARE_STORE_ACCOUNT_PASSWORD=$SHOPWARE_STORE_ACCOUNT_PASSWORD
 
 USER dockware
 
@@ -90,6 +88,7 @@ RUN echo "==> STEP 4: Preparing and importing database dump..." && \
     echo "==> Database import completed"
 
 RUN echo "==> STEP 5: Building Shopware application..." && \
+    --mount=type=secret,id=shopware_store_password export SHOPWARE_STORE_ACCOUNT_PASSWORD="$(cat /run/secrets/shopware_store_password)" && \
     sudo service mysql start && \
     find bin -type f ! -name "*.sql" -exec sed -i 's/\r$//' {} + && \
     chmod +x bin/* && \
@@ -139,6 +138,12 @@ RUN echo "==> STEP 7: Creating compressed application archive..." && \
     echo "export HOST=0.0.0.0" | sudo tee -a /var/www/.bashrc && \
     echo "export VITE_EXTENSIONS_SERVER_HOST=localhost" | sudo tee -a /var/www/.bashrc && \
     echo "export VITE_EXTENSIONS_SERVER_SCHEME=http" | sudo tee -a /var/www/.bashrc && \
+    printf '%s\n' \
+          'if [ -n "$BASH_VERSION" ]; then' \
+          '    if [ -f "$HOME/.bashrc" ]; then' \
+          '        . "$HOME/.bashrc"' \
+          '    fi' \
+          'fi' | sudo tee -a /var/www/.profile && \
     sudo sed -i 's/export \([^=]*\)=\(.*\)/export \1=${\1:-\2}/' /etc/profile && \
     echo ". /etc/profile" >> /var/www/.bashrc && \
     echo "==> Archive creation completed"
