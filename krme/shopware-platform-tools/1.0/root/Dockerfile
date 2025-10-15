@@ -89,8 +89,9 @@ RUN echo "==> STEP 4: Preparing and importing database dump..." && \
     sudo chown -R mysql:mysql /var/lib/mysql /var/run/mysqld && \
     echo "==> Database import completed"
 
-RUN echo "==> STEP 5: Building Shopware application..." && \
-    --mount=type=secret,id=shopware_store_password export SHOPWARE_STORE_ACCOUNT_PASSWORD="$(cat /run/secrets/shopware_store_password)" && \
+RUN --mount=type=secret,id=shopware_store_password \
+    echo "==> STEP 5: Building Shopware application..." && \
+    export SHOPWARE_STORE_ACCOUNT_PASSWORD="$(cat /run/secrets/shopware_store_password)" && \
     sudo service mysql start && \
     find bin -type f ! -name "*.sql" -exec sed -i 's/\r$//' {} + && \
     chmod +x bin/* && \
