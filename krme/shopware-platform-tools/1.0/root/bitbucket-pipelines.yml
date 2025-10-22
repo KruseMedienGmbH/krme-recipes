@@ -3,21 +3,21 @@ image:
 
 pipelines:
   custom:
-    manual-renovate:
-      import: shopwareplatformtools:main:manual-renovate
+    build-image:
+      import: shopwareplatformtools:main:build-image
     manual-system-check:
       import: shopwareplatformtools:main:manual-system-check
     full-build-check:
       import: shopwareplatformtools:main:full-build-check
     dependency-check:
       import: shopwareplatformtools:main:dependency-check
+    update-dependencies:
+      import: shopwareplatformtools:main:update-dependencies
   branches:
     develop:
       import: shopwareplatformtools:main:deploy-staging
     main:
       import: shopwareplatformtools:main:deploy-production
-    updates/shopware-updates:
-      import: shopwareplatformtools:main:updates/shopware-updates
   pull-requests:
     '**':
       import: shopwareplatformtools:main:pull-request
