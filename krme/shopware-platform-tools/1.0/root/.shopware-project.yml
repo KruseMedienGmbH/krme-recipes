@@ -15,6 +15,8 @@ deployment:
   hooks:
     pre-update: |
       ../../current/bin/dump.sh
+    post-update: |
+      bin/console app:shop-id:change move-shop-permanently
   store:
     license-domain: '##DOMAIN##'
 
